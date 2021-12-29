@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { ethers, utils } from "ethers";
 import './App.css';
+import abi from "./utils/waveportal.json"
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+
+  const contractAddress = "0x9d302c0b2603ADC309A906928457101c27096Fd2";
+  const contractABI = abi.abi;
   
   const checkIfWalletIsConnected = async () => {
     try {
@@ -50,6 +55,38 @@ const App = () => {
     }
   }
 
+const wave = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+
+        /*
+        * You're using contractABI here
+        */
+        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        let count = await wavePortalContract.getTotalSomething();
+        console.log("Retrieved total something count...", count.toNumber());
+
+        const waveTxn = await wavePortalContract.doSomething();
+        console.log("Mining...", waveTxn.hash);
+
+        await waveTxn.wait();
+        console.log("Mined -- ", waveTxn.hash);
+
+        count = await wavePortalContract.getTotalSomething();
+        console.log("Retrieved total something count...", count.toNumber());
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, [])
@@ -62,10 +99,10 @@ const App = () => {
         </div>
 
         <div className="bio">
-          Hi, I'm Antony.  This is my first Dapp.  I'm looking for some music reccomendations.  Enter a Spotify or Soundcloud link below!
+          Hi, I'm Antony.  This is my first Dapp.  I'm looking for some music reccomendations.  Enter a Spotify or Soundcloud link below!  Don't worry this is only on the testnet (switch to Rinkeby in Metamask) so waving doesn't cost any real money.  
         </div>
 
-        <button className="waveButton" onClick={null}>
+        <button className="waveButton" onClick={wave}>
           Do Something
         </button>
         
