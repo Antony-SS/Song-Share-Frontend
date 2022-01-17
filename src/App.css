@@ -1,15 +1,30 @@
+
+
 .mainContainer {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 64px;
+  margin-top: 60px;
+  
 }
+
 
 .dataContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 600px;
+  max-width: 675px;
+  max-height: 80vh;
+  margin: 0px;
+  padding:25px;
+  background: rgba(190, 137, 127, 0.61);
+  border-radius: 8px;
+}
+
+.waves-container {
+  margin-top: 25px;
+  overflow-y: scroll;
+  min-height: 220px;
 }
 
 .header {
@@ -22,6 +37,7 @@
   text-align: center;
   color: gray;
   margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .waveButton {
@@ -31,4 +47,17 @@
   border: 0;
   border-radius: 5px;
   
+}
+
+.inputfield {
+  cursor: text;
+  margin-top: 8px;
+  padding: 6px;
+  
+  border-radius: 5px;
+  background: #d6c807;
+  color: #ffffff;
+  font-size: 18px;
+  transition: 0.5s;
+  height: 30px;
 }

@@ -6,6 +6,11 @@ import abi from "./utils/waveportal.json"
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allRecs, setAllRecs] = useState([]);
+  const [totalrecs, settotalrecs] = useState(0);
+  const [inputlink, setinputlink] = useState("");
+  const [inputdescription, setinputdescription] = useState("");
+  const [buttonstatustext, setbuttonstatustext] = useState("Submit");
+  const [buttonstatus, setbuttonstatus] = useState(false);
 
   const contractAddress = "0x001A3F375620aA1255cCC1100CFFE2eC757Bcc2e";
   const contractABI = abi.abi;
@@ -59,7 +64,7 @@ const App = () => {
     }
   }
 
-  const wave = async () => {
+  const submit = async () => {
     try {
       const { ethereum } = window;
 
@@ -70,18 +75,24 @@ const App = () => {
         /*
         * You're using contractABI here
         */
-        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+        const musicPortalContract = new ethers.Contract(contractAddress, contractABI, signer);
 
-        let count = await wavePortalContract.getTotalRecs();
+        let count = await musicPortalContract.getTotalRecs();
         console.log("Retrieved total rec count...", count.toNumber());
 
-        const waveTxn = await wavePortalContract.makeRec("linktospotify", "Some song");
-        console.log("Mining...", waveTxn.hash);
 
+
+        const waveTxn = await musicPortalContract.makeRec(inputlink, inputdescription);
+        console.log("Mining...", waveTxn.hash);
+        setbuttonstatustext("MINING . . .");
+        setbuttonstatus(true);
+        // can write a function here from // https://www.w3schools.com/js/js_timing.asp to be able to do // // changing dots
         await waveTxn.wait();
         console.log("Mined -- ", waveTxn.hash);
+        setbuttonstatustext("Another one?")
+        setbuttonstatus(true);
 
-        count = await wavePortalContract.getTotalRecs();
+        count = await musicPortalContract.getTotalRecs();
         console.log("Retrieved total something count...", count.toNumber());
         await getAllRecs();
       } else {
@@ -123,8 +134,6 @@ const App = () => {
          * Store our data in React State
          */
         setAllRecs(formattedrecs);
-        console.log(formattedrecs);
-        console.log("updated to all recs to ...", allRecs);
       } else {
         console.log("Ethereum object doesn't exist!")
       }
@@ -133,43 +142,75 @@ const App = () => {
     }
   }
 
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, [])
 
   return (
+  <div className = "background-image">
     <div className="mainContainer">
       <div className="dataContainer">
         <div className="header">
-          👋 Hey there!
+          👋 Hi, I'm Antony.
         </div>
 
-        <div className="bio">
-          Hi, I'm Antony and this is my first Dapp. . .  I'm looking for some music reccomendations.  Drop a Spotify or Soundcloud link below!  Don't worry this is on the testnet (switch to Rinkeby Network on Metamask) so making a reccomendation doesn't cost any real money.
+        <div className="bio" >
+          Thanks for stopping by.  This is my first dapp using Rinkeby!  I'm looking for music reccomendations.  Feel free to leave one below or just browse :)
         </div>
 
-        <button className="waveButton" onClick={wave}>
-          Drop a song reccomendation!
-        </button>
+          {/*
+         <button className="waveButton" onClick={wave}>
+           Drop a song reccomendation!
+         </button>
+        */}
+
+
+{ /*
+        <form>
+    <label>
+    Name:
+    <input type="text" name="name" />
+    </label>
+  <input type="submit" value="Submit" />
+</form>
+*/ }
+
+      
+
+        <input onChange= {event => setinputlink(event.target.value)} type="text" placeholder="Drop a link!" class="inputfield" id = "inputsonglink"/>
+
+        <input onChange= {event => setinputdescription(event.target.value)} type="text" placeholder="Brief description of song/playlist" class="inputfield" id = "inputsonglink"/>
+
+         <button className="waveButton" onClick={submit} disabled={ buttonstatus || (inputdescription.trim().length <= 0 || inputlink.trim().length <= 0)}>
+           {buttonstatustext}
+         </button>
+        
 
         {/*
         * If there is no account render the connect wallet button
         */}
+
         {!currentAccount && (
           <button className="waveButton" onClick={connectWallet}>
             Connect Wallet
           </button>
         )}
 
-        {allRecs.map((rec, index) => {
+        <div className =  "waves-container">
+        
+        {allRecs.slice(0).reverse().map((rec, index) => {
           return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
-              <div>Address: {rec.reccomender}</div>
+            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "18px", padding: "8px" }}>
+              <div>Link: {rec.link}</div>
+              <div>Description: {rec.description.toString()}</div>
               <div>Time: {rec.timestamp.toString()}</div>
-              <div>link: {rec.link}</div>
+              <div style = {{marginTop: "5px"}}>Address: {rec.reccomender}</div>
             </div>)
         })}
       </div>
+      </div>
+    </div>
     </div>
   );
 }
