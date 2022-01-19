@@ -8,56 +8,132 @@
   
 }
 
-
-.dataContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 675px;
-  max-height: 80vh;
-  margin: 0px;
-  padding:25px;
-  background: rgba(190, 137, 127, 0.61);
-  border-radius: 8px;
-}
-
-.waves-container {
-  margin-top: 25px;
-  overflow-y: scroll;
-  min-height: 220px;
-}
-
-.header {
-  text-align: center;
-  font-size: 32px;
-  font-weight: 600;
-}
-
-.bio {
-  text-align: center;
-  color: gray;
-  margin-top: 16px;
-  margin-bottom: 16px;
-}
-
-.waveButton {
+.walletButton {
   cursor: pointer;
   margin-top: 16px;
   padding: 8px;
   border: 0;
   border-radius: 5px;
-  
+  height: 100px;
+  font-size: 20px;
+  background-color: whitesmoke;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 625px;
+  max-height: 80vh;
+  margin: 0px;
+  padding:25px;
+  border-radius: 8px;
+  background: rgba(33, 11, 39, 0.808);
+
+}
+
+.waves-container {
+  margin-top: 10px;
+  overflow-y: scroll;
+  min-height: 250px;
+  border-radius: 8px;
+}
+
+.header {
+  color: rgb(197, 55, 155);
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.bio {
+  text-align: center;
+  color: rgb(247, 244, 246);
+  font-size: 14px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.waveButton {
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background: rgb(197, 55, 155);
+  color: whitesmoke;
+  font-size: 22px;
+}
+.waveButton:hover {
+  background: rgb(215, 63, 176);
+  color: rgb(209, 209, 209)
 }
 
 .inputfield {
   cursor: text;
   margin-top: 8px;
   padding: 6px;
-  
-  border-radius: 5px;
-  background: #d6c807;
+  border-radius: 8px;
   color: #ffffff;
   font-size: 18px;
   transition: 0.5s;
   height: 30px;
+  background: #303841;
+  border-width: 0px;
+}
+
+.wavebox {
+  background: #303841;
+  border-radius: 8px;
+  margin-top: 15px; 
+  padding: 8px;
+  color: whitesmoke;
+  font-size: 14px;
+}
+
+.songtext {
+  text-emphasis: strong;
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+  color: whitesmoke;
+}
+
+.descriptiontext {
+  margin-bottom: 5px;
+  font-size: 12px;
+  text-align: center;
+  color: white;
+}
+
+.timetext {
+   text-emphasis: weak;
+  margin: 0px;
+  text-align: center;
+  color:grey;
+  font-size: 6px;
+}
+
+.addresstext {
+  text-emphasis: weak;
+  margin: 0px;
+  text-align: center;
+  color:grey;
+  font-size: 6px;
+}
+
+.faucetlink {
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background: rgb(197, 55, 155);
+  color: whitesmoke;
+  font-size: 22px;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-color: rgb(197, 55, 155);
 }

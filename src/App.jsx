@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers, utils } from "ethers";
+
 import './App.css';
 import abi from "./utils/waveportal.json"
 
@@ -11,8 +12,9 @@ const App = () => {
   const [inputdescription, setinputdescription] = useState("");
   const [buttonstatustext, setbuttonstatustext] = useState("Submit");
   const [buttonstatus, setbuttonstatus] = useState(false);
+  const [walletbalance, setwalletbalance] = useState();
 
-  const contractAddress = "0x001A3F375620aA1255cCC1100CFFE2eC757Bcc2e";
+  const contractAddress = "0xCB56B58238c3320D718ce85d0BcCa285A0b1E8c8";
   const contractABI = abi.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -29,7 +31,7 @@ const App = () => {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
 
       if (accounts.length !== 0) {
-        const account = accounts[0];
+        const account = accounts[1];
         console.log("Found an authorized account:", account);
         setCurrentAccount(account);
         await getAllRecs();
@@ -59,6 +61,12 @@ const App = () => {
 
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      await getAllRecs();
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      let balancebig = await provider.getBalance(accounts[0]);
+      console.log(ethers.utils.formatEther(balancebig));
+      setwalletbalance(ethers.utils.formatEther(balancebig));
     } catch (error) {
       console.log(error)
     }
@@ -86,11 +94,14 @@ const App = () => {
         console.log("Mining...", waveTxn.hash);
         setbuttonstatustext("MINING . . .");
         setbuttonstatus(true);
+
         // can write a function here from // https://www.w3schools.com/js/js_timing.asp to be able to do // // changing dots
         await waveTxn.wait();
         console.log("Mined -- ", waveTxn.hash);
-        setbuttonstatustext("Another one?")
-        setbuttonstatus(true);
+        setinputlink("");
+        setinputdescription("");
+        setbuttonstatus(false);
+        setbuttonstatustext("Submit Another!")
 
         count = await musicPortalContract.getTotalRecs();
         console.log("Retrieved total something count...", count.toNumber());
@@ -101,6 +112,10 @@ const App = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  function openInNewTab(url) {
+    window.open(url, '_blank').focus();
   }
 
   const getAllRecs = async () => {
@@ -148,16 +163,9 @@ const App = () => {
   }, [])
 
   return (
-  <div className = "background-image">
-    <div className="mainContainer">
-      <div className="dataContainer">
-        <div className="header">
-          👋 Hi, I'm Antony.
-        </div>
-
-        <div className="bio" >
-          Thanks for stopping by.  This is my first dapp using Rinkeby!  I'm looking for music reccomendations.  Feel free to leave one below or just browse :)
-        </div>
+    <div className="background-image">
+      <div className="mainContainer">
+        <div className="dataContainer">
 
           {/*
          <button className="waveButton" onClick={wave}>
@@ -166,7 +174,7 @@ const App = () => {
         */}
 
 
-{ /*
+          { /*
         <form>
     <label>
     Name:
@@ -175,44 +183,82 @@ const App = () => {
   <input type="submit" value="Submit" />
 </form>
 */ }
+          {!currentAccount && (
+            <>
+              <div className="header">
+                👋 Welcome to Song Share!
+        </div>
 
-      
+              <div className="bio" >
+                This Dapp lets you exchange music reccomendations with others on the Rinkeby network.  Ensure that your Metamask wallet is set to the Rinkeby test network.
+        </div>
+              <button className="walletButton" onClick={connectWallet}>
+                Please Connect Wallet
+          </button>
+            </>
+          )}
 
-        <input onChange= {event => setinputlink(event.target.value)} type="text" placeholder="Drop a link!" class="inputfield" id = "inputsonglink"/>
+      {currentAccount && (
+            <>
+              {walletbalance <= 0.0001 && (
+                <>
+                       <div className="header">
+                Oops!
+                </div>
+                  <div className="bio" >
+                    You don't have enough Rinkeby eth in your wallet to make a reccomendation.  Follow the link below to the Chainlink faucet to get some and then reload this page!
+                  </div>
+                  <a href="https://faucets.chain.link/rinkeby" target = "_blank">
+                    <div className = "faucetlink">
+                      Chainlink Faucet
+                    </div>
+                  </a>
+                </>
+                  )}
 
-        <input onChange= {event => setinputdescription(event.target.value)} type="text" placeholder="Brief description of song/playlist" class="inputfield" id = "inputsonglink"/>
+              {walletbalance > 0.0001 && (
+                    <>
+                    <div className="header">
+                👋 Hi, I'm Antony.
+                      </div>
+                      <div className="bio" >
+                        Thanks for stopping by.  This is my first dapp using Rinkeby!  I'm looking for music recommendations.  Feel free to leave one below or just browse :)
+        </div>
 
-         <button className="waveButton" onClick={submit} disabled={ buttonstatus || (inputdescription.trim().length <= 0 || inputlink.trim().length <= 0)}>
-           {buttonstatustext}
-         </button>
-        
+                      <input onChange={event => setinputlink(event.target.value)} type="text" placeholder="Song name" value={inputlink} class="inputfield" id="inputsonglink" disabled={buttonstatus} />
 
-        {/*
+                      <input onChange={event => setinputdescription(event.target.value)} type="text" placeholder="Why you like it" value={inputdescription} class="inputfield" id="inputsongdescription" disabled={buttonstatus} />
+
+                      <button className="waveButton" onClick={submit} disabled={buttonstatus || (inputdescription.trim().length <= 0 || inputlink.trim().length <= 0)}>
+                        {buttonstatustext}
+                      </button>
+                    </>
+                  )}
+
+
+                  <div className="waves-container">
+
+                    {allRecs.slice(0).reverse().map((rec, index) => {
+                      return (
+                        <div className="wavebox" key={index}>
+                          <div className="songtext">{rec.link}</div>
+                          <div className="descriptiontext">{rec.description.toString()}</div>
+                          <div className="timetext">{rec.timestamp.toString()}</div>
+                          <div className="addresstext"> {rec.reccomender}</div>
+                        </div>)
+                    })}
+                  </div>
+                </>
+              )}
+              {/*
         * If there is no account render the connect wallet button
         */}
 
-        {!currentAccount && (
-          <button className="waveButton" onClick={connectWallet}>
-            Connect Wallet
-          </button>
-        )}
 
-        <div className =  "waves-container">
-        
-        {allRecs.slice(0).reverse().map((rec, index) => {
-          return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "18px", padding: "8px" }}>
-              <div>Link: {rec.link}</div>
-              <div>Description: {rec.description.toString()}</div>
-              <div>Time: {rec.timestamp.toString()}</div>
-              <div style = {{marginTop: "5px"}}>Address: {rec.reccomender}</div>
-            </div>)
-        })}
-      </div>
+            </div>
       </div>
     </div>
-    </div>
-  );
-}
-
+        );
+      }
+      
 export default App
