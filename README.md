@@ -1,13 +1,15 @@
-## Running React on Repl.it
+This is the frontend for my song share dapp.  The backend smart contracts for this project can be found under waveportal contract.  This project was inspired by buildspace's waveportal tutorial.  I elaborated on the idea by taking the time to learn some js and react and I am proud of how my first real javascript project turned out.
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+The app is pretty self explanatory.  Follow the link below to the website and go from there.  
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
+https://github.com/Antony-SS/Blockchain-Twitter-Frontend.git
 
-Using the two in conjunction is one of the fastest ways to build a web app.
+Extra Resources:
+If you want to know how to turn on testnets and switch to rinkeby look at the link below.
 
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
+https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d
 
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the `.replit` file.
+Going forwards:
+I am now looking for a project that will give me some more experience and challenge on the backend smart contract side.  For this application the blockchain pretty much only worked as a server with get and post requests.  It has so much more power than that and I would like to evolve beyond that for my next project. 
+
+
