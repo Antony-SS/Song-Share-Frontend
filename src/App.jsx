@@ -35,7 +35,6 @@ const App = () => {
         console.log("Found an authorized account:", account);
         setCurrentAccount(account);
         await getAllRecs();
-
       } else {
         console.log("No authorized account found")
       }
@@ -45,7 +44,7 @@ const App = () => {
   }
 
   /**
-  * Implement your connectWallet method here
+  * Implement connectWallet method here
   */
 
   const connectWallet = async () => {
@@ -85,8 +84,8 @@ const App = () => {
         */
         const musicPortalContract = new ethers.Contract(contractAddress, contractABI, signer);
 
-        let count = await musicPortalContract.getTotalRecs();
-        console.log("Retrieved total rec count...", count.toNumber());
+
+        // console.log("Retrieved total rec count...", count.toNumber());
 
 
 
@@ -103,8 +102,9 @@ const App = () => {
         setbuttonstatus(false);
         setbuttonstatustext("Submit Another!")
 
-        count = await musicPortalContract.getTotalRecs();
-        console.log("Retrieved total something count...", count.toNumber());
+        // count = await musicPortalContract.getTotalRecs();
+        //settotalrecs(count);
+        //console.log("Retrieved total something count...", count.toNumber());
         await getAllRecs();
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -149,6 +149,8 @@ const App = () => {
          * Store our data in React State
          */
         setAllRecs(formattedrecs);
+        //const count = await musicPortalContract.getTotalRecs();
+        //settotalrecs(count);
       } else {
         console.log("Ethereum object doesn't exist!")
       }
