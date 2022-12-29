@@ -1,4 +1,4 @@
-This is the frontend for my song share dapp.  The backend smart contracts for this project can be found under waveportal contract.  This project was inspired by buildspace's waveportal tutorial.  I elaborated on the idea by taking the time to learn some js and react and I am proud of how my first real javascript project turned out.
+This project was inspired by buildspace's waveportal tutorial.  I elaborated on the idea by taking the time to learn some js and react and I am proud of how my first real javascript project turned out.
 
 The app is pretty self explanatory.  Follow the link below to the website and go from there.  
 
