@@ -14,7 +14,7 @@ const App = () => {
   const [buttonstatus, setbuttonstatus] = useState(false);
   const [walletbalance, setwalletbalance] = useState();
 
-  const contractAddress = "0xCB56B58238c3320D718ce85d0BcCa285A0b1E8c8";
+  const contractAddress = "0x45006Ba031Ab91c0b634d6eCCf38196314741d38";
   const contractABI = abi.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -42,7 +42,6 @@ const App = () => {
       console.log(error);
     }
   }
-
   /**
   * Implement connectWallet method here
   */
@@ -168,31 +167,14 @@ const App = () => {
     <div className="background-image">
       <div className="mainContainer">
         <div className="dataContainer">
-
-          {/*
-         <button className="waveButton" onClick={wave}>
-           Drop a song reccomendation!
-         </button>
-        */}
-
-
-          { /*
-        <form>
-    <label>
-    Name:
-    <input type="text" name="name" />
-    </label>
-  <input type="submit" value="Submit" />
-</form>
-*/ }
           {!currentAccount && (
             <>
               <div className="header">
-                👋 Welcome to Song Share!
+                🎧 Welcome to Song Share!
         </div>
 
               <div className="bio" >
-                This Dapp lets you exchange music reccomendations with others on the Rinkeby network.  Ensure that your Metamask wallet is set to the Rinkeby test network.
+                This Dapp lets you exchange music reccomendations with others on the Goerli network.  Ensure that your Metamask wallet is set to the Goerli test network.
         </div>
               <button className="walletButton" onClick={connectWallet}>
                 Please Connect Wallet
@@ -200,67 +182,67 @@ const App = () => {
             </>
           )}
 
-      {currentAccount && (
+          {currentAccount && (
             <>
               {walletbalance <= 0.0001 && (
                 <>
-                       <div className="header">
-                Oops!
+                  <div className="header">
+                    Oops!
                 </div>
                   <div className="bio" >
-                    You don't have enough Rinkeby eth in your wallet to make a reccomendation.  Follow the link below to the Chainlink faucet to get some and then reload this page!
+                    You don't have enough Goerli eth in your wallet to make a reccomendation.  Follow the link below to the Goerli faucet to get some and then reload this page!
                   </div>
-                  <a href="https://faucets.chain.link/rinkeby" target = "_blank">
-                    <div className = "faucetlink">
-                      Chainlink Faucet
+                  <a href="https://goerlifaucet.com/" target="_blank">
+                    <div className="faucetlink">
+                      Goerli Faucet
                     </div>
                   </a>
                 </>
-                  )}
+              )}
 
               {walletbalance > 0.0001 && (
-                    <>
-                    <div className="header">
-                👋 Hi, I'm Antony.
+                <>
+                  <div className="header">
+                    👋 Hi, I'm Antony.
                       </div>
-                      <div className="bio" >
-                        Thanks for stopping by.  This is my first dapp using Rinkeby!  I'm looking for music recommendations.  Feel free to leave one below or just browse :)
+                  <div className="bio" >
+                    Thanks for stopping by.  This is my first dapp using Goerli!  I'm looking for music recommendations.  Feel free to leave one below or just browse :)
         </div>
 
-                      <input onChange={event => setinputlink(event.target.value)} type="text" placeholder="Song name" value={inputlink} class="inputfield" id="inputsonglink" disabled={buttonstatus} />
+                  <input onChange={event => setinputlink(event.target.value)} type="text" placeholder="Song name" value={inputlink} class="inputfield" id="inputsonglink" disabled={buttonstatus} />
 
-                      <input onChange={event => setinputdescription(event.target.value)} type="text" placeholder="Why you like it" value={inputdescription} class="inputfield" id="inputsongdescription" disabled={buttonstatus} />
+                  <input onChange={event => setinputdescription(event.target.value)} type="text" placeholder="Why you like it" value={inputdescription} class="inputfield" id="inputsongdescription" disabled={buttonstatus} />
 
-                      <button className="waveButton" onClick={submit} disabled={buttonstatus || (inputdescription.trim().length <= 0 || inputlink.trim().length <= 0)}>
-                        {buttonstatustext}
-                      </button>
-                    </>
-                  )}
-
-
-                  <div className="waves-container">
-
-                    {allRecs.slice(0).reverse().map((rec, index) => {
-                      return (
-                        <div className="wavebox" key={index}>
-                          <div className="songtext">{rec.link}</div>
-                          <div className="descriptiontext">{rec.description.toString()}</div>
-                          <div className="timetext">{rec.timestamp.toString()}</div>
-                          <div className="addresstext"> {rec.reccomender}</div>
-                        </div>)
-                    })}
-                  </div>
+                  <button className="waveButton" onClick={submit} disabled={buttonstatus || (inputdescription.trim().length <= 0 || inputlink.trim().length <= 0)}>
+                    {buttonstatustext}
+                  </button>
                 </>
               )}
-              {/*
+
+
+              <div className="waves-container">
+
+                {allRecs.slice(0).reverse().map((rec, index) => {
+                  return (
+                    <div className="wavebox" key={index}>
+                      <div className="songtext">{rec.link}</div>
+                      <div className="descriptiontext">{rec.description.toString()}</div>
+                      <div className="timetext">{rec.timestamp.toString()}</div>
+                      <div className="addresstext"> {rec.reccomender}</div>
+                    </div>)
+                })}
+              </div>
+            </>
+          )}
+          {/*
         * If there is no account render the connect wallet button
         */}
 
 
-            </div>
+        </div>
       </div>
     </div>
-        );
-      }
-      
+  );
+}
+
 export default App
