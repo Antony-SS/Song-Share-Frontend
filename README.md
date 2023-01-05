@@ -5,7 +5,7 @@ The app is pretty self explanatory.  Follow the link below to the website and go
 https://github.com/Antony-SS/Blockchain-Twitter-Frontend.git
 
 Extra Resources:
-If you want to know how to turn on testnets and switch to rinkeby look at the link below.
+If you want to know how to turn on testnets and switch to Goerli look at the link below.
 
 https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d
 
